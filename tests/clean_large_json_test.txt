@@ -1,0 +1,36 @@
+Test: Clean Large JSON Test
+Description: Demonstrates clean handling of large nested JSON via external files
+
+Test Steps:
+- Post Large JSON from File: POST https://httpbin.org/post
+  Headers:
+    Content-Type: application/json
+    X-API-Version: v1.0
+  Body from file large_payload.json
+  Status code should be 200
+  response.json.json.user.profile.personal.name equals "John Doe"
+  response.json.json.user.profile.professional.company.name equals "Tech Corp"
+  response.json.json.user.profile.personal.addresses array_length equals 2
+  response.json.json.user.profile.personal.addresses[0].coordinates.lat within_range 40.0-41.0
+  response.json.json.user.profile.professional.company.projects array_length equals 2
+  response.json.json.user.profile.professional.company.projects[0].technologies array_contains "Python"
+  response.json.json.user.metadata.tags array_contains "user"
+  response.json.json.user.metadata.permissions.admin is_false
+
+- Post YAML from File: POST https://httpbin.org/post
+  Headers:
+    Content-Type: application/json
+  Body from file large_payload.yaml
+  Status code should be 200
+  response.json.json.user.profile.personal.name equals "John Doe"
+
+- Post Mixed Content: POST https://httpbin.org/post
+  Headers:
+    Content-Type: application/json
+  Body:
+    operation: "user_update"
+    user_data: from file large_payload.json
+    settings:
+      validate: true
+      notify: false
+  Status code should be 200

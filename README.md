@@ -5,19 +5,27 @@ A powerful framework for writing API tests in natural language with automatic re
 ## 🚀 Features
 
 - **Natural Language Testing**: Write API tests in simple, readable English
+- **Large JSON Support**: Handle complex nested JSON via external files (JSON/YAML)
 - **Response Chaining**: Use data from one API call in subsequent calls automatically
-- **Beautiful HTML Reports**: Generate professional-looking test reports with interactive features
+- **Beautiful HTML Reports**: Generate professional-looking test reports with pretty-printed JSON
+- **Advanced Assertions**: 25+ validation operators for comprehensive testing
+- **Variable Extraction**: Extract and reuse variables from deeply nested JSON paths
 - **CI/CD Integration**: Built-in planner-executor-reporter agent pattern for pipeline integration
 - **Parallel Execution**: Run tests in parallel for faster execution
 - **Environment Management**: Support for multiple test environments
-- **Extensive Validations**: Rich validation options for API responses
-- **Variable Extraction**: Extract and reuse variables across test steps
+- **Collapsible Reports**: Interactive HTML reports optimized for 100+ test cases
+- **Docker Support**: Containerized deployment and execution
 
 ## 📋 Table of Contents
 
 - [Installation](#installation)
 - [Quick Start](#quick-start)
 - [Writing Tests](#writing-tests)
+  - [Natural Language Format](#natural-language-format)
+  - [YAML Format](#yaml-format)
+  - [Response Chaining](#response-chaining)
+  - [Validations](#validations)
+  - [Large JSON Handling](#large-json-handling)
 - [Configuration](#configuration)
 - [CI/CD Integration](#cicd-integration)
 - [Examples](#examples)
@@ -172,6 +180,159 @@ Built-in validation options:
   username should be "testuser"
   status should not be "error"
 ```
+
+### Large JSON Handling
+
+For complex nested JSON payloads, use external files to keep test files clean:
+
+#### External JSON File Reference
+
+**Test File (`tests/clean_large_json_test.txt`):**
+```text
+- Post Large JSON from File: POST https://httpbin.org/post
+  Headers:
+    Content-Type: application/json
+  Body from file large_payload.json
+  Status code should be 200
+  Extract user_name from response.json.json.user.profile.personal.name
+  Extract company_name from response.json.json.user.profile.professional.company.name
+```
+
+**External JSON File (`tests/large_payload.json`):**
+```json
+{
+  "user": {
+    "id": 12345,
+    "profile": {
+      "personal": {
+        "name": "John Doe",
+        "email": "john.doe@example.com",
+        "age": 30,
+        "preferences": {
+          "theme": "dark",
+          "notifications": {
+            "email": true,
+            "sms": false,
+            "push": true,
+            "settings": {
+              "frequency": "daily",
+              "categories": ["security", "updates", "alerts"]
+            }
+          }
+        }
+      },
+      "professional": {
+        "company": {
+          "name": "Tech Corp",
+          "department": "Engineering",
+          "position": "Senior Developer",
+          "skills": ["Python", "JavaScript", "Docker", "Kubernetes"],
+          "projects": [
+            {
+              "name": "API Gateway",
+              "status": "active",
+              "technologies": ["FastAPI", "PostgreSQL", "Redis"],
+              "metrics": {
+                "performance": 95.5,
+                "reliability": 99.9,
+                "uptime": 365
+              }
+            }
+          ]
+        }
+      },
+      "addresses": [
+        {
+          "type": "home",
+          "street": "123 Main St",
+          "city": "New York",
+          "state": "NY",
+          "zip": "10001",
+          "coordinates": {
+            "lat": 40.7128,
+            "lng": -74.0060
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
+#### YAML File Support
+
+**Test File:**
+```text
+- Post YAML from File: POST https://httpbin.org/post
+  Headers:
+    Content-Type: application/json
+  Body from file large_payload.yaml
+  Status code should be 200
+```
+
+**YAML File (`tests/large_payload.yaml`):**
+```yaml
+user:
+  id: 12345
+  profile:
+    personal:
+      name: "John Doe"
+      email: "john.doe@example.com"
+      preferences:
+        theme: "dark"
+        notifications:
+          email: true
+          sms: false
+          push: true
+```
+
+#### Mixed Approach
+
+```text
+- Post Mixed Content: POST https://httpbin.org/post
+  Headers:
+    Content-Type: application/json
+  Body:
+    operation: "user_update"
+    user_data: from file large_payload.json
+    settings:
+      validate: true
+      notify: false
+  Status code should be 200
+```
+
+#### Advanced Assertions on Large JSON
+
+```text
+# Deep nested extraction
+Extract user_name from response.json.json.user.profile.personal.name
+Extract company_name from response.json.json.user.profile.professional.company.name
+Extract home_address from response.json.json.user.profile.addresses[0].city
+
+# Complex validations on nested data
+response.json.json.user.profile.addresses array_length equals 2
+response.json.json.user.profile.addresses[0].coordinates.lat within_range 40.0-41.0
+response.json.json.user.profile.professional.company.projects array_contains "API Gateway"
+response.json.json.user.metadata.tags array_contains "user"
+response.json.json.user.metadata.permissions.admin is_false
+```
+
+#### File Resolution
+
+The framework automatically searches for files in:
+- Current directory
+- `tests/` directory
+- `examples/` directory
+- `data/` directory
+
+#### Benefits
+
+✅ **Clean Test Files**: No messy inline JSON
+✅ **Organized Structure**: Separate files for complex payloads
+✅ **Reusable Components**: Same data across multiple tests
+✅ **Pretty Reports**: Full JSON visibility in HTML reports
+✅ **Smart Resolution**: Automatic file path resolution
+✅ **Multiple Formats**: JSON, YAML, and mixed support
 
 ## ⚙️ Configuration
 

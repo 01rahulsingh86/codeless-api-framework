@@ -1,0 +1,72 @@
+user:
+  id: 12345
+  profile:
+    personal:
+      name: "John Doe"
+      email: "john.doe@example.com"
+      age: 30
+      preferences:
+        theme: "dark"
+        notifications:
+          email: true
+          sms: false
+          push: true
+          settings:
+            frequency: "daily"
+            categories: ["security", "updates", "alerts"]
+    professional:
+      company:
+        name: "Tech Corp"
+        department: "Engineering"
+        position: "Senior Developer"
+        skills: ["Python", "JavaScript", "Docker", "Kubernetes"]
+        projects:
+          - name: "API Gateway"
+            status: "active"
+            technologies: ["FastAPI", "PostgreSQL", "Redis"]
+            metrics:
+              performance: 95.5
+              reliability: 99.9
+              uptime: 365
+          - name: "Data Pipeline"
+            status: "completed"
+            technologies: ["Apache Spark", "Kafka", "S3"]
+            metrics:
+              performance: 88.2
+              reliability: 97.5
+              uptime: 300
+    addresses:
+      - type: "home"
+        street: "123 Main St"
+        city: "New York"
+        state: "NY"
+        zip: "10001"
+        coordinates:
+          lat: 40.7128
+          lng: -74.0060
+        metadata:
+          verified: true
+          since: "2020-01-01"
+      - type: "work"
+        street: "456 Business Ave"
+        city: "Boston"
+        state: "MA"
+        zip: "02108"
+        coordinates:
+          lat: 42.3601
+          lng: -71.0589
+        metadata:
+          verified: true
+          since: "2021-06-15"
+  metadata:
+    version: "2.1.0"
+    created_at: "2024-01-15T10:30:00Z"
+    tags: ["user", "profile", "complex", "nested"]
+    permissions:
+      read: ["profile", "preferences", "metadata"]
+      write: ["preferences"]
+      admin: false
+    audit:
+      created_by: "admin"
+      updated_by: "user_123"
+      last_login: "2024-01-20T15:45:00Z"

@@ -1,0 +1,21 @@
+Test: File Loading Demo
+Description: Demonstrates clean loading of large JSON from external files
+
+Test Steps:
+- Simple JSON File Load: POST https://httpbin.org/post
+  Headers:
+    Content-Type: application/json
+  Body from file large_payload.json
+  Status code should be 200
+
+- Simple YAML File Load: POST https://httpbin.org/post
+  Headers:
+    Content-Type: application/json
+  Body from file large_payload.yaml
+  Status code should be 200
+
+- Inline JSON for Comparison: POST https://httpbin.org/post
+  Headers:
+    Content-Type: application/json
+  Body: {"message": "Hello from inline JSON", "type": "test"}
+  Status code should be 200
