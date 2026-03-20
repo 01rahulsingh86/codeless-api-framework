@@ -1,0 +1,45 @@
+
+# Codeless API Framework Configuration
+
+test_directory: tests
+parallel_execution: true
+max_parallel_tests: 5
+timeout: 300
+fail_fast: false
+retry_failed_tests: false
+retry_count: 2
+
+# Global variables available in all tests
+global_variables:
+  base_url: "https://api.example.com"
+  api_version: "v1"
+
+# Environment configurations
+environments:
+  default:
+    variables:
+      base_url: "https://api.example.com"
+  
+  staging:
+    variables:
+      base_url: "https://staging-api.example.com"
+  
+  production:
+    variables:
+      base_url: "https://api.example.com"
+
+# Reporting configuration
+reporting:
+  html: true
+  json: true
+  junit: false
+  output_directory: reports
+
+# Notification configuration (optional)
+notifications:
+  slack:
+    webhook_url: "YOUR_SLACK_WEBHOOK_URL"
+  email:
+    smtp_server: "smtp.example.com"
+    from_address: "tests@example.com"
+    to_addresses: ["team@example.com"]

@@ -1,0 +1,36 @@
+Test: Simple API Demo
+Description: Demonstrates JSON handling and assertions
+
+Test Steps:
+- Get JSON Data: GET https://httpbin.org/json
+  Status code should be 200
+  Extract slide_title from response.slideshow.title
+  response.slideshow.title type_is string
+  response.slideshow.title is_not_empty
+
+- Post JSON Data: POST https://httpbin.org/post
+  Headers:
+    Content-Type: application/json
+  Body:
+    name: "John Doe"
+    email: "john@example.com"
+    age: 30
+    profile:
+      city: "New York"
+      country: "USA"
+  Status code should be 200
+  response.json.name equals "John Doe"
+  response.json.email is_valid_email
+  response.json.age greater_than 25
+  response.json.profile.city equals "New York"
+  response.json.profile.country type_is string
+
+- Test UUID: GET https://httpbin.org/uuid
+  Status code should be 200
+  response.uuid type_is string
+  response.uuid matches ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+
+- Test IP: GET https://httpbin.org/ip
+  Status code should be 200
+  response.origin type_is string
+  response.origin is_valid_ip

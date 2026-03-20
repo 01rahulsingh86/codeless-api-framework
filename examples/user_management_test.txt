@@ -1,0 +1,55 @@
+Test: User Registration and Management
+Description: Complete user lifecycle testing from registration to deletion
+
+Setup:
+- Health Check: GET {{base_url}}/health
+  Status code should be 200
+
+Test Steps:
+- Register New User: POST {{base_url}}/users/register
+  Headers:
+    Content-Type: application/json
+  Body:
+    username: testuser_{{timestamp}}
+    email: test_{{timestamp}}@example.com
+    password: SecurePass123!
+    first_name: Test
+    last_name: User
+  Status code should be 201
+  Extract user_id from response.id
+  Extract auth_token from response.token
+
+- Get User Profile: GET {{base_url}}/users/{{user_id}}
+  Headers:
+    Authorization: Bearer {{auth_token}}
+  Status code should be 200
+  Response should contain username
+  Response should contain email
+
+- Update User Profile: PUT {{base_url}}/users/{{user_id}}
+  Headers:
+    Authorization: Bearer {{auth_token}}
+    Content-Type: application/json
+  Body:
+    first_name: Updated
+    last_name: Name
+  Status code should be 200
+  first_name should be Updated
+
+- List All Users: GET {{base_url}}/users
+  Headers:
+    Authorization: Bearer {{auth_token}}
+  Status code should be 200
+  Response should contain users
+
+- Search User by Username: GET {{base_url}}/users?search=testuser_{{timestamp}}
+  Headers:
+    Authorization: Bearer {{auth_token}}
+  Status code should be 200
+  Response should contain testuser_{{timestamp}}
+
+Teardown:
+- Delete User: DELETE {{base_url}}/users/{{user_id}}
+  Headers:
+    Authorization: Bearer {{auth_token}}
+  Status code should be 204

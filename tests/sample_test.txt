@@ -1,0 +1,25 @@
+
+Test: User Authentication Flow
+Description: Test user login and token refresh
+
+- Login User: POST {{base_url}}/auth/login
+  Headers:
+    Content-Type: application/json
+  Body:
+    username: testuser
+    password: testpass
+  Status code should be 200
+  Extract access_token from response.access_token
+  Extract user_id from response.user.id
+
+- Get User Profile: GET {{base_url}}/users/{{user_id}}
+  Headers:
+    Authorization: Bearer {{access_token}}
+  Status code should be 200
+  Response should contain username
+
+- Refresh Token: POST {{base_url}}/auth/refresh
+  Headers:
+    Authorization: Bearer {{access_token}}
+  Status code should be 200
+  Extract new_token from response.access_token

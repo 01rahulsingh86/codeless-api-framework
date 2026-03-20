@@ -1,0 +1,303 @@
+Test: Large Test Suite Demo
+Description: Demonstrates report handling with 100 test cases
+
+Test Steps:
+- Test Case 1: GET https://httpbin.org/status/200
+  Status code should be 200
+
+- Test Case 2: GET https://httpbin.org/status/201
+  Status code should be 201
+
+- Test Case 3: GET https://httpbin.org/status/202
+  Status code should be 202
+
+- Test Case 4: GET https://httpbin.org/status/204
+  Status code should be 204
+
+- Test Case 5: GET https://httpbin.org/json
+  Status code should be 200
+
+- Test Case 6: GET https://httpbin.org/uuid
+  Status code should be 200
+
+- Test Case 7: GET https://httpbin.org/ip
+  Status code should be 200
+
+- Test Case 8: GET https://httpbin.org/user-agent
+  Status code should be 200
+
+- Test Case 9: GET https://httpbin.org/headers
+  Status code should be 200
+
+- Test Case 10: GET https://httpbin.org/cookies
+  Status code should be 200
+
+- Test Case 11: POST https://httpbin.org/post with body {"test": "data"}
+  Status code should be 200
+
+- Test Case 12: PUT https://httpbin.org/put with body {"test": "data"}
+  Status code should be 200
+
+- Test Case 13: PATCH https://httpbin.org/patch with body {"test": "data"}
+  Status code should be 200
+
+- Test Case 14: DELETE https://httpbin.org/delete
+  Status code should be 200
+
+- Test Case 15: GET https://httpbin.org/response-headers?Content-Type=application/json
+  Status code should be 200
+
+- Test Case 16: GET https://httpbin.org/encoding/utf8
+  Status code should be 200
+
+- Test Case 17: GET https://httpbin.org/gzip
+  Status code should be 200
+
+- Test Case 18: GET https://httpbin.org/deflate
+  Status code should be 200
+
+- Test Case 19: GET https://httpbin.org/brotli
+  Status code should be 200
+
+- Test Case 20: GET https://httpbin.org/status/400
+  Status code should be 400
+
+- Test Case 21: GET https://httpbin.org/status/401
+  Status code should be 401
+
+- Test Case 22: GET https://httpbin.org/status/403
+  Status code should be 403
+
+- Test Case 23: GET https://httpbin.org/status/404
+  Status code should be 404
+
+- Test Case 24: GET https://httpbin.org/status/500
+  Status code should be 500
+
+- Test Case 25: GET https://httpbin.org/status/502
+  Status code should be 502
+
+- Test Case 26: GET https://httpbin.org/status/503
+  Status code should be 503
+
+- Test Case 27: POST https://httpbin.org/post with body {"user": {"name": "Alice", "age": 30}}
+  Status code should be 200
+
+- Test Case 28: POST https://httpbin.org/post with body {"user": {"name": "Bob", "age": 25}}
+  Status code should be 200
+
+- Test Case 29: POST https://httpbin.org/post with body {"user": {"name": "Charlie", "age": 35}}
+  Status code should be 200
+
+- Test Case 30: POST https://httpbin.org/post with body {"user": {"name": "Diana", "age": 28}}
+  Status code should be 200
+
+- Test Case 31: POST https://httpbin.org/post with body {"product": {"id": 1, "name": "Laptop", "price": 999.99}}
+  Status code should be 200
+
+- Test Case 32: POST https://httpbin.org/post with body {"product": {"id": 2, "name": "Phone", "price": 699.99}}
+  Status code should be 200
+
+- Test Case 33: POST https://httpbin.org/post with body {"product": {"id": 3, "name": "Tablet", "price": 399.99}}
+  Status code should be 200
+
+- Test Case 34: POST https://httpbin.org/post with body {"product": {"id": 4, "name": "Watch", "price": 299.99}}
+  Status code should be 200
+
+- Test Case 35: POST https://httpbin.org/post with body {"order": {"id": 1001, "total": 1999.98}}
+  Status code should be 200
+
+- Test Case 36: POST https://httpbin.org/post with body {"order": {"id": 1002, "total": 999.99}}
+  Status code should be 200
+
+- Test Case 37: POST https://httpbin.org/post with body {"order": {"id": 1003, "total": 1499.97}}
+  Status code should be 200
+
+- Test Case 38: POST https://httpbin.org/post with body {"order": {"id": 1004, "total": 799.98}}
+  Status code should be 200
+
+- Test Case 39: GET https://httpbin.org/delay/1
+  Status code should be 200
+
+- Test Case 40: GET https://httpbin.org/delay/2
+  Status code should be 200
+
+- Test Case 41: GET https://httpbin.org/delay/3
+  Status code should be 200
+
+- Test Case 42: POST https://httpbin.org/post with body {"items": [{"id": 1, "name": "Item 1"}, {"id": 2, "name": "Item 2"}]}
+  Status code should be 200
+
+- Test Case 43: POST https://httpbin.org/post with body {"items": [{"id": 3, "name": "Item 3"}, {"id": 4, "name": "Item 4"}]}
+  Status code should be 200
+
+- Test Case 44: POST https://httpbin.org/post with body {"config": {"theme": "dark", "lang": "en"}}
+  Status code should be 200
+
+- Test Case 45: POST https://httpbin.org/post with body {"config": {"theme": "light", "lang": "es"}}
+  Status code should be 200
+
+- Test Case 46: POST https://httpbin.org/post with body {"settings": {"notifications": true, "privacy": false}}
+  Status code should be 200
+
+- Test Case 47: POST https://httpbin.org/post with body {"settings": {"notifications": false, "privacy": true}}
+  Status code should be 200
+
+- Test Case 48: GET https://httpbin.org/robots.txt
+  Status code should be 200
+
+- Test Case 49: GET https://httpbin.org/deny
+  Status code should be 200
+
+- Test Case 50: GET https://httpbin.org/cache
+  Status code should be 200
+
+- Test Case 51: GET https://httpbin.org/etag/etag
+  Status code should be 200
+
+- Test Case 52: GET https://httpbin.org/stream/5
+  Status code should be 200
+
+- Test Case 53: GET https://httpbin.org/stream-bytes/1024
+  Status code should be 200
+
+- Test Case 54: GET https://httpbin.org/xml
+  Status code should be 200
+
+- Test Case 55: POST https://httpbin.org/post with body {"api": {"version": "v1", "endpoint": "/users"}}
+  Status code should be 200
+
+- Test Case 56: POST https://httpbin.org/post with body {"api": {"version": "v2", "endpoint": "/products"}}
+  Status code should be 200
+
+- Test Case 57: POST https://httpbin.org/post with body {"auth": {"token": "abc123", "type": "bearer"}}
+  Status code should be 200
+
+- Test Case 58: POST https://httpbin.org/post with body {"auth": {"token": "xyz789", "type": "basic"}}
+  Status code should be 200
+
+- Test Case 59: GET https://httpbin.org/image/png
+  Status code should be 200
+
+- Test Case 60: GET https://httpbin.org/image/jpeg
+  Status code should be 200
+
+- Test Case 61: GET https://httpbin.org/image/svg
+  Status code should be 200
+
+- Test Case 62: GET https://httpbin.org/image/webp
+  Status code should be 200
+
+- Test Case 63: POST https://httpbin.org/post with body {"data": {"type": "log", "level": "info"}}
+  Status code should be 200
+
+- Test Case 64: POST https://httpbin.org/post with body {"data": {"type": "log", "level": "error"}}
+  Status code should be 200
+
+- Test Case 65: POST https://httpbin.org/post with body {"data": {"type": "metric", "value": 42.5}}
+  Status code should be 200
+
+- Test Case 66: POST https://httpbin.org/post with body {"data": {"type": "metric", "value": 78.3}}
+  Status code should be 200
+
+- Test Case 67: GET https://httpbin.org/base64/SFRUUEJpbiBpcyBhd2Vzb21lIQ==
+  Status code should be 200
+
+- Test Case 68: POST https://httpbin.org/post with body {"file": {"name": "test.txt", "size": 1024}}
+  Status code should be 200
+
+- Test Case 69: POST https://httpbin.org/post with body {"file": {"name": "data.json", "size": 2048}}
+  Status code should be 200
+
+- Test Case 70: POST https://httpbin.org/post with body {"cache": {"key": "user_123", "ttl": 3600}}
+  Status code should be 200
+
+- Test Case 71: POST https://httpbin.org/post with body {"cache": {"key": "product_456", "ttl": 7200}}
+  Status code should be 200
+
+- Test Case 72: POST https://httpbin.org/post with body {"session": {"id": "sess_789", "user_id": 123}}
+  Status code should be 200
+
+- Test Case 73: POST https://httpbin.org/post with body {"session": {"id": "sess_101", "user_id": 456}}
+  Status code should be 200
+
+- Test Case 74: GET https://httpbin.org/links/5
+  Status code should be 200
+
+- Test Case 75: GET https://httpbin.org/links/10
+  Status code should be 200
+
+- Test Case 76: GET https://httpbin.org/image/png
+  Status code should be 200
+
+- Test Case 77: GET https://httpbin.org/json
+  Status code should be 200
+
+- Test Case 78: GET https://httpbin.org/uuid
+  Status code should be 200
+
+- Test Case 79: GET https://httpbin.org/ip
+  Status code should be 200
+
+- Test Case 80: GET https://httpbin.org/user-agent
+  Status code should be 200
+
+- Test Case 81: GET https://httpbin.org/headers
+  Status code should be 200
+
+- Test Case 82: GET https://httpbin.org/cookies
+  Status code should be 200
+
+- Test Case 83: POST https://httpbin.org/post with body {"test": "final_1"}
+  Status code should be 200
+
+- Test Case 84: POST https://httpbin.org/post with body {"test": "final_2"}
+  Status code should be 200
+
+- Test Case 85: POST https://httpbin.org/post with body {"test": "final_3"}
+  Status code should be 200
+
+- Test Case 86: POST https://httpbin.org/post with body {"test": "final_4"}
+  Status code should be 200
+
+- Test Case 87: POST https://httpbin.org/post with body {"test": "final_5"}
+  Status code should be 200
+
+- Test Case 88: GET https://httpbin.org/status/200
+  Status code should be 200
+
+- Test Case 89: GET https://httpbin.org/status/200
+  Status code should be 200
+
+- Test Case 90: GET https://httpbin.org/status/200
+  Status code should be 200
+
+- Test Case 91: GET https://httpbin.org/status/200
+  Status code should be 200
+
+- Test Case 92: GET https://httpbin.org/status/200
+  Status code should be 200
+
+- Test Case 93: GET https://httpbin.org/status/200
+  Status code should be 200
+
+- Test Case 94: GET https://httpbin.org/status/200
+  Status code should be 200
+
+- Test Case 95: GET https://httpbin.org/status/200
+  Status code should be 200
+
+- Test Case 96: GET https://httpbin.org/status/200
+  Status code should be 200
+
+- Test Case 97: GET https://httpbin.org/status/200
+  Status code should be 200
+
+- Test Case 98: GET https://httpbin.org/status/200
+  Status code should be 200
+
+- Test Case 99: GET https://httpbin.org/status/200
+  Status code should be 200
+
+- Test Case 100: GET https://httpbin.org/status/200
+  Status code should be 200

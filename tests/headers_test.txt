@@ -1,0 +1,29 @@
+Test: Headers and Request Response Test
+Description: Test proper header extraction and request/response display
+
+Test Steps:
+- GET Request with Headers: GET https://httpbin.org/headers
+  Headers:
+    Accept: application/json
+    User-Agent: Codeless-API-Framework/1.0
+    X-Custom-Header: test-value
+  Status code should be 200
+
+- POST Request with Headers and Body: POST https://httpbin.org/post
+  Headers:
+    Content-Type: application/json
+    Authorization: Bearer token123
+    X-Request-ID: req-456
+  Body:
+    message: "Hello World"
+    timestamp: "2024-01-01T00:00:00Z"
+  Status code should be 200
+  response.json.json.message equals "Hello World"
+
+- PUT Request: PUT https://httpbin.org/put
+  Headers:
+    Content-Type: application/json
+    If-Match: "etag-value"
+  Body:
+    data: "updated content"
+  Status code should be 200

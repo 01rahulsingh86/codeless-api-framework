@@ -1,0 +1,136 @@
+Test: Nested JSON Processing Demo
+Description: Demonstrates deep nested JSON handling and extraction
+
+Test Steps:
+- Get Complex Nested JSON: POST https://httpbin.org/post
+  Headers:
+    Content-Type: application/json
+  Body:
+    user:
+      id: 12345
+      profile:
+        personal:
+          name: "John Doe"
+          contact:
+            email: "john@example.com"
+            phone: "+1-555-0123"
+            addresses:
+              - type: "home"
+                street: "123 Main St"
+                city: "New York"
+                coordinates:
+                  lat: 40.7128
+                  lng: -74.0060
+              - type: "work"
+                street: "456 Business Ave"
+                city: "Boston"
+                coordinates:
+                  lat: 42.3601
+                  lng: -71.0589
+        professional:
+          company:
+            name: "Tech Corp"
+            department:
+              name: "Engineering"
+              team:
+                name: "Backend"
+                projects:
+                  - name: "API Gateway"
+                    status: "active"
+                    technologies: ["Python", "FastAPI", "Docker"]
+                    metrics:
+                      performance: 95.5
+                      reliability: 99.9
+                      uptime: 365
+                  - name: "Database Service"
+                    status: "in_progress"
+                    technologies: ["PostgreSQL", "Redis", "MongoDB"]
+                    metrics:
+                      performance: 88.2
+                      reliability: 97.5
+                      uptime: 300
+        preferences:
+          notifications:
+            email: true
+            sms: false
+            push: true
+            settings:
+              frequency: "daily"
+              categories: ["security", "updates", "alerts"]
+          ui:
+            theme: "dark"
+            language: "en"
+            layout:
+              sidebar: true
+              toolbar: true
+              panels:
+                dashboard:
+                  visible: true
+                  widgets: ["charts", "metrics", "alerts"]
+                analytics:
+                  visible: true
+                  widgets: ["graphs", "reports", "exports"]
+    metadata:
+      version: "2.1.0"
+      created_at: "2024-01-15T10:30:00Z"
+      tags: ["user", "profile", "complex", "nested"]
+      permissions:
+        read: ["profile", "preferences", "metadata"]
+        write: ["preferences"]
+        admin: false
+  Status code should be 200
+  Extract user_id from response.json.user.id
+  Extract email from response.json.user.profile.personal.contact.email
+  Extract home_city from response.json.user.profile.personal.addresses[0].city
+  Extract company_name from response.json.user.profile.professional.company.name
+  Extract team_name from response.json.user.profile.professional.company.department.team.name
+  Extract first_project from response.json.user.profile.professional.company.department.team.projects[0].name
+  Extract performance_metric from response.json.user.profile.professional.company.department.team.projects[0].metrics.performance
+  Extract theme from response.json.user.preferences.ui.theme
+  Extract notification_frequency from response.json.user.preferences.notifications.settings.frequency
+  Extract dashboard_widgets from response.json.user.preferences.ui.layout.panels.dashboard.widgets
+  Extract version from response.json.metadata.version
+  Extract tags from response.json.metadata.tags
+  response.json.user.profile.personal.contact.email is_valid_email
+  response.json.user.profile.personal.contact.addresses array_length equals 2
+  response.json.user.profile.professional.company.department.team.projects array_length equals 2
+  response.json.user.profile.professional.company.department.team.projects[0].technologies array_contains "Python"
+  response.json.user.preferences.notifications.settings.categories array_contains "security"
+  response.json.user.preferences.ui.layout.panels.dashboard.widgets array_length greater_than 0
+  response.json.metadata.tags array_contains "user"
+  response.json.user.profile.personal.contact.addresses[0].coordinates.lat within_range 40.0-41.0
+  response.json.user.profile.professional.company.department.team.projects[0].metrics.performance greater_than 90
+  response.json.user.profile.professional.company.department.team.projects[0].metrics.reliability greater_than 99
+  response.json.metadata.version matches ^\d+\.\d+\.\d+$
+  response.json.user.preferences.ui.theme equals "dark"
+  response.json.user.preferences.notifications.email is_true
+  response.json.user.preferences.notifications.sms is_false
+  response.json.metadata.permissions.admin is_false
+  response.json.user.profile.personal.contact.addresses[0].type equals "home"
+  response.json.user.profile.professional.company.department.team.projects[0].status equals "active"
+
+- Test Variable Chaining: POST https://httpbin.org/post
+  Headers:
+    Content-Type: application/json
+  Body:
+    user_info:
+      id: {{user_id}}
+      email: {{email}}
+      home_location: {{home_city}}
+      company: {{company_name}}
+      team: {{team_name}}
+      current_project: {{first_project}}
+      performance_score: {{performance_metric}}
+      ui_theme: {{theme}}
+      notification_setting: {{notification_frequency}}
+      dashboard_config: {{dashboard_widgets}}
+      system_version: {{version}}
+      user_tags: {{tags}}
+    processing_metadata:
+      extracted_fields: ["user_id", "email", "home_city", "company_name"]
+      validation_passed: true
+  Status code should be 200
+  response.json.user_info.id equals {{user_id}}
+  response.json.user_info.email equals {{email}}
+  response.json.user_info.company equals {{company_name}}
+  response.json.user_info.team equals {{team_name}}

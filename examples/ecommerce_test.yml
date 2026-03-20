@@ -1,0 +1,190 @@
+name: E-commerce API Test Suite
+description: Complete e-commerce workflow testing
+
+config:
+  timeout: 600
+  parallel_execution: false
+
+tests:
+  - name: Product Catalog Test
+    description: Test product browsing and search functionality
+    steps:
+      - name: Get All Products
+        method: GET
+        url: "{{base_url}}/api/products"
+        expected_status: 200
+        validations:
+          - response should contain products
+        extract_variables:
+          product_count: "len(products)"
+      
+      - name: Search Products
+        method: GET
+        url: "{{base_url}}/api/products/search"
+        params:
+          q: "laptop"
+          limit: 10
+        expected_status: 200
+        validations:
+          - response should contain products
+      
+      - name: Get Product Details
+        method: GET
+        url: "{{base_url}}/api/products/{{products.0.id}}"
+        expected_status: 200
+        validations:
+          - response should contain name
+          - response should contain price
+        extract_variables:
+          product_id: "id"
+          product_price: "price"
+
+  - name: Shopping Cart Test
+    description: Test shopping cart functionality
+    setup:
+      - name: Create Test User
+        method: POST
+        url: "{{base_url}}/api/users"
+        body:
+          username: "cart_test_user"
+          email: "carttest@example.com"
+        expected_status: 201
+        extract_variables:
+          user_id: "id"
+          user_token: "token"
+    
+    steps:
+      - name: Create Empty Cart
+        method: POST
+        url: "{{base_url}}/api/carts"
+        headers:
+          Authorization: "Bearer {{user_token}}"
+        body:
+          user_id: "{{user_id}}"
+        expected_status: 201
+        extract_variables:
+          cart_id: "id"
+      
+      - name: Add Product to Cart
+        method: POST
+        url: "{{base_url}}/api/carts/{{cart_id}}/items"
+        headers:
+          Authorization: "Bearer {{user_token}}"
+        body:
+          product_id: "{{product_id}}"
+          quantity: 2
+        expected_status: 200
+        validations:
+          - response should contain cart_item_id
+      
+      - name: Get Cart Contents
+        method: GET
+        url: "{{base_url}}/api/carts/{{cart_id}}"
+        headers:
+          Authorization: "Bearer {{user_token}}"
+        expected_status: 200
+        validations:
+          - response should contain items
+          - items.0.quantity should be 2
+      
+      - name: Update Cart Item Quantity
+        method: PUT
+        url: "{{base_url}}/api/carts/{{cart_id}}/items/{{cart_item_id}}"
+        headers:
+          Authorization: "Bearer {{user_token}}"
+        body:
+          quantity: 3
+        expected_status: 200
+        validations:
+          - response.quantity should be 3
+      
+      - name: Remove Item from Cart
+        method: DELETE
+        url: "{{base_url}}/api/carts/{{cart_id}}/items/{{cart_item_id}}"
+        headers:
+          Authorization: "Bearer {{user_token}}"
+        expected_status: 204
+    
+    teardown:
+      - name: Delete Test User
+        method: DELETE
+        url: "{{base_url}}/api/users/{{user_id}}"
+        headers:
+          Authorization: "Bearer {{user_token}}"
+        expected_status: 204
+
+  - name: Order Processing Test
+    description: Test order creation and processing
+    depends_on: ["Shopping Cart Test"]
+    setup:
+      - name: Create Order Cart
+        method: POST
+        url: "{{base_url}}/api/carts"
+        headers:
+          Authorization: "Bearer {{user_token}}"
+        body:
+          user_id: "{{user_id}}"
+        expected_status: 201
+        extract_variables:
+          order_cart_id: "id"
+      
+      - name: Add Products to Order Cart
+        method: POST
+        url: "{{base_url}}/api/carts/{{order_cart_id}}/items"
+        headers:
+          Authorization: "Bearer {{user_token}}"
+        body:
+          product_id: "{{product_id}}"
+          quantity: 1
+        expected_status: 200
+    
+    steps:
+      - name: Create Order
+        method: POST
+        url: "{{base_url}}/api/orders"
+        headers:
+          Authorization: "Bearer {{user_token}}"
+        body:
+          cart_id: "{{order_cart_id}}"
+          shipping_address:
+            street: "123 Test St"
+            city: "Test City"
+            country: "Test Country"
+            postal_code: "12345"
+        expected_status: 201
+        extract_variables:
+          order_id: "id"
+          order_total: "total_amount"
+      
+      - name: Get Order Details
+        method: GET
+        url: "{{base_url}}/api/orders/{{order_id}}"
+        headers:
+          Authorization: "Bearer {{user_token}}"
+        expected_status: 200
+        validations:
+          - response should contain order_items
+          - response.status should be "pending"
+      
+      - name: Process Payment
+        method: POST
+        url: "{{base_url}}/api/orders/{{order_id}}/payment"
+        headers:
+          Authorization: "Bearer {{user_token}}"
+        body:
+          payment_method: "credit_card"
+          card_number: "4111111111111111"
+          expiry_date: "12/25"
+          cvv: "123"
+        expected_status: 200
+        validations:
+          - response should contain payment_id
+      
+      - name: Confirm Order
+        method: PUT
+        url: "{{base_url}}/api/orders/{{order_id}}/confirm"
+        headers:
+          Authorization: "Bearer {{user_token}}"
+        expected_status: 200
+        validations:
+          - response.status should be "confirmed"

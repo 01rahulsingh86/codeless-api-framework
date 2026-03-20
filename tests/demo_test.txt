@@ -1,0 +1,67 @@
+Test: API Demo Test
+Description: Demonstrates large JSON handling and advanced assertions
+
+Setup:
+- Health Check: GET https://httpbin.org/status/200
+  Status code should be 200
+
+Test Steps:
+- Get Large JSON Data: GET https://httpbin.org/json
+  Status code should be 200
+  Extract slide_title from response.slideshow.title
+  Extract author from response.slideshow.author
+  response.slideshow.title type_is string
+  response.slideshow.date is_valid_json
+
+- Post Complex JSON: POST https://httpbin.org/post
+  Headers:
+    Content-Type: application/json
+  Body:
+    user:
+      id: 12345
+      name: "John Doe"
+      email: "john@example.com"
+      profile:
+        age: 30
+        address:
+          street: "123 Main St"
+          city: "New York"
+          zip: "10001"
+        preferences:
+          theme: "dark"
+          notifications: true
+          languages: ["English", "Spanish"]
+    metadata:
+      created_at: "2024-01-01T00:00:00Z"
+      version: 1.0
+      tags: ["user", "profile", "demo"]
+  Status code should be 200
+  response.json.user.name equals "John Doe"
+  response.json.user.email is_valid_email
+  response.json.user.profile.age greater_than 25
+  response.json.user.profile.preferences.languages array_length greater_than 1
+  response.json.user.profile.preferences.languages array_contains "English"
+  response.json.metadata.tags array_contains "user"
+  response.json.metadata.version within_range 0.5-2.0
+
+- Test Array Operations: GET https://httpbin.org/array?length=5
+  Status code should be 200
+  response array_length equals 5
+  response array_contains 0
+  response array_not_contains 10
+  response type_is array
+
+- Test Nested Objects: GET https://httpbin.org/headers
+  Status code should be 200
+  response.headers object_has_key "Host"
+  response.headers.Host is_not_empty
+  response.headers.Host type_is string
+
+- Test Date Validation: GET https://httpbin.org/uuid
+  Status code should be 200
+  response.uuid type_is string
+  response.uuid matches ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+
+Teardown:
+- Cleanup Check: GET https://httpbin.org/status/200
+  Status code should be 200
